@@ -1,0 +1,14 @@
+language: bash
+services: docker
+env:
+  - VERSION=3.4 VARIANT=alpine
+
+before_script:
+  - image="hogo:${VERSION}${VARIANT}"
+
+script:
+  - docker build -t "$image" .
+  - ~/official-images/test/run.sh "$image"
+
+after_script:
+  - docker images|grep $image
