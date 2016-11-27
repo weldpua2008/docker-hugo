@@ -1,0 +1,7 @@
+*.swp
+*.swo
+*.pyc
+.coverage
+.idea/*
+.idea
+.tmp/*
