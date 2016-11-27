@@ -1,4 +1,4 @@
-[![dockeri.co](http://dockeri.co/image/weldpua2008/hugo)](https://hub.docker.com/r/weldpua2008/hugo/)
+[![dockeri.co](http://dockeri.co/image/weldpua2008/hugo)](https://hub.docker.com/r/weldpua2008/hugo/) [![Build Status](https://travis-ci.org/weldpua2008/docker-hugo.svg?branch=master)](https://travis-ci.org/weldpua2008/docker-hugo)
 weldpua2008/docker-hugo
 ==============
 
