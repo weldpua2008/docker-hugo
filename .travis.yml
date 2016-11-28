@@ -7,6 +7,6 @@ before_script:
   - image="hogo:${VERSION}${VARIANT}"
 
 script:
-  - docker build -t "$image" .  
+  - docker build -t "$image" .
 after_script:
   - docker images|grep $image
