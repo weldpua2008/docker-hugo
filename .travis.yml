@@ -10,3 +10,4 @@ script:
   - docker build -t "$image" .
 after_script:
   - docker images|grep $image
+  - docker pull weldpua2008/hugo
