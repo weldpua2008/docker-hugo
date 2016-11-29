@@ -32,6 +32,11 @@ Building your site
 
 Based on this structure, you can easily build an image for your site:
 
+Example Dockerfile:
+    FROM weldpua2008/hugo:latest
+    RUN echo "my image"
+
+
 	docker build -t my/image .
 
 Your site is automatically generated during this build. 
