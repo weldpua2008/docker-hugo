@@ -1,10 +1,24 @@
-[![dockeri.co](http://dockeri.co/image/weldpua2008/hugo)](https://hub.docker.com/r/weldpua2008/hugo/) [![Build Status](https://travis-ci.org/weldpua2008/docker-hugo.svg?branch=master)](https://travis-ci.org/weldpua2008/docker-hugo)
-weldpua2008/docker-hugo
+[![dockeri.co](http://dockeri.co/image/weldpua2008/hugo)](https://hub.docker.com/r/weldpua2008/hugo/) [![Build Status](https://travis-ci.org/weldpua2008/docker-hugo.svg?branch=master)](https://travis-ci.org/weldpua2008/docker-hugo) [![](https://images.microbadger.com/badges/image/weldpua2008/hugo.svg)]
+docker-hugo
 ==============
 
-`weldpua2008/hugo` is a [Docker](https://www.docker.io) base image for static sites generated with [Hugo](http://gohugo.io). 
+`weldpua2008/hugo` is a [Docker](https://www.docker.io) image for static sites generated with [Hugo](http://gohugo.io) - a fast and modern static website engine. It can either be used to run arbitrary Hugo commands for your project or as a base image for your custom container. 
 
-Images derived from this image can either run as a stand-alone server, or function as a volume image for your web server. 
+The default entrypoint runs the plain ```hugo```command. Via command parameters the command which should be used to run Hugo can be selected and parameterized. For example running ```docker run ... fbrx/hugo server -D -F``` will result in running ```hugo server -D -F``` inside the container.
+
+
+## Environment Variables
+
+* `HUGO_THEME` theme to use 
+* `HUGO_WATCH` (set to any value to enable watching)
+* `HUGO_BASEURL`  hostname (and path) to the root, e.g. http://spf13.com/
+
+#### Help 
+To print Hugo Help:
+
+```bash
+docker run --rm -it weldpua2008/hugo hugo help
+```
 
 Prerequisites
 -------------
@@ -81,3 +95,13 @@ Create a site with Hugo
     hugo new site /site
 
 
+
+## Issues
+
+If you have any problems with or questions about this docker image, please contact me through a [GitHub issue](https://github.com/weldpua2008/docker-hugo/issues). 
+If the issue is related to Hugo itself, please leave an issue on the [Hugo official repository](https://github.com/spf13/hugo).
+
+
+## Contributing
+
+You are invited to contribute new features, fixes or updates to this container, through a [Github Pull Request](https://github.com/weldpua2008/docker-hugo/pulls).

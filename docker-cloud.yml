@@ -1,0 +1,10 @@
+hugo:
+  image: 'weldpua2008/hugo:latest'
+  deployment_strategy: high_availability
+  restart: always
+  expose:
+    - "80"
+  ports:
+    - '80:80'
+  entrypoint: "hugo server --verbose --log=true --logFile=hugo.log --verboseLog=true --renderToDisk=true --ignoreCache=true --source=/site --destination=/output --watch=true --config=/site/config.toml --theme=blackburn --bind=0.0.0.0 --port=80"
+  working_dir: /site

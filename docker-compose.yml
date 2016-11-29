@@ -1,0 +1,11 @@
+hugo:
+  image: weldpua2008/hugo
+  command: >
+    server --bind=0.0.0.0
+           --port=80
+           --watch
+  ports:
+    - "80:80"
+  volumes:
+    - ./site:/site
+  restart: always

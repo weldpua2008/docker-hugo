@@ -1,0 +1,14 @@
+image: weldpua2008/hugo:latest
+
+before_script:
+  - BUILD_DIR="/tmp/build"
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  # For Docker builds disable host key checking - http://doc.gitlab.com/ce/ci/ssh_keys/README.html
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerinit ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+deploy:
+  script:
+    - hugo --destination "$BUILD_DIR"
+
