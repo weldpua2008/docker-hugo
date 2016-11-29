@@ -12,7 +12,7 @@ The default entrypoint runs the plain ```hugo```command. Via command parameters 
 * `HUGO_THEME` theme to use 
 * `HUGO_WATCH` (set to any value to enable watching)
 * `HUGO_BASEURL`  hostname (and path) to the root, e.g. http://spf13.com/
-
+* `HUGO_BIND_ADDRESS` Allows access to the served site from this address (By default: 0.0.0.0 is open to all)
 #### Help 
 To print Hugo Help:
 
