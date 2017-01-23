@@ -1,21 +1,22 @@
 #!/usr/bin/env sh
 #########################################################
-# Valeriy Solovyov <weldpua2008@gmail.com> 2016(C)
+# Valeriy Solovyov <weldpua2008@gmail.com> 2016-2017(C)
 #########################################################
 set -eo pipefail
 
 #remove possibly existing site
 [ -d /site/public/ ] && rm -rf /site/public/*
 
-# if command starts with an option, prepend hugo
-if [ "${1:0:1}" = '-' ]; then
-	set -- hugo "$@"
+
 # when the site is redistributed as git repo
-elif  echo "${1}" |grep -Eoq "(http|https|ssh)://"  ;then
+if  echo "${1}" |grep -Eoq "(http|https|ssh)://"  ;then
 #    mkdir -p /site
     git clone $@
-    exit 0
-#    set -- hugo
+fi
+
+# if command starts with an option, prepend hugo
+if [ "${1:0:1}" = '-' ]; then
+    set -- hugo "$@"
 elif [ "$1" = "example" ];then
         _SITE="/site"
         mkdir -p $_SITE || exit 1
@@ -24,6 +25,11 @@ elif [ "$1" = "example" ];then
         cd $_SITE  || exit 1
         echo "running: hugo server -w -p 1313 --bind 0.0.0.0"
         exec hugo server -w -p 1313 --bind 0.0.0.0
+        exit $?
+#   execute any other executable if exists
+elif which "$1"  2> /dev/null && [[ "$1" != "hugo" ]] ; then
+    exec $@
+    exit $?
 fi
 
 if  ! echo "$@" |grep -Eoq "\-\-watch";then
