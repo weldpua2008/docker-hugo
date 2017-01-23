@@ -29,30 +29,30 @@ fi
 if  ! echo "$@" |grep -Eoq "\-\-watch";then
     if [[ ${HUGO_WATCH:=false} != 'false' ]]; then
         echo "HUGO_WATCH: ${HUGO_WATCH:=false}"
-        set -- --watch=true
+        set -- $@ --watch=true
     fi
 fi
 
 if  ! echo "$@" |grep -Eoq "\-\-baseUrl";then
     if [[ "x${HUGO_BASEURL:-}" != 'x' ]]; then
         echo "HUGO_BASEURL: ${HUGO_BASEURL:-}"
-        set -- --baseUrl="$HUGO_BASEURL"
+        set -- $@ --baseUrl="$HUGO_BASEURL"
     fi
 fi
 
 if  ! echo "$@" |grep -Eoq "\-\-theme";then
     if [[ "x${HUGO_THEME:-}" != 'x' ]]; then
         echo "HUGO_THEME: ${HUGO_THEME:-}"
-        set -- --theme="$HUGO_THEME"
+        set -- $@ --theme="$HUGO_THEME"
     fi
 fi
 
 if  ! echo "$@" |grep -Eoq "\-\-bind";then
     if [[ "x${HUGO_BIND_ADDRESS:-0.0.0.0}" != 'x' ]]; then
         echo "HUGO_THEME: ${HUGO_BIND_ADDRESS:-0.0.0.0}"
-        set -- --bind="${HUGO_BIND_ADDRESS:-0.0.0.0}"
+        set -- $@ --bind="${HUGO_BIND_ADDRESS:-0.0.0.0}"
     fi
 fi
 
 echo running: "$@"
-exec "$@"
+exec $@
