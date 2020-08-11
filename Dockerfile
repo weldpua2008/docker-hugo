@@ -1,14 +1,10 @@
 FROM golang:1.13-alpine AS build
 
-ARG HUGO_BUILD_TAGS
-
-ARG CGO=1 \
+ENV CGO=1 \
     CGO_ENABLED=${CGO} \
     GOOS=linux \
     GO111MODULE=on \
     HUGO_RELEASE_TAG="v0.74.3"
-
-WORKDIR /go/src/github.com/gohugoio/hugo
 
 
 # gcc/g++ are required to build SASS libraries for extended version
@@ -16,8 +12,10 @@ RUN apk update && \
     apk add --no-cache gcc g++ musl-dev git && \
     go get github.com/magefile/mage
 
-RUN git clone --depth 1 -b ${HUGO_RELEASE_TAG} https://github.com/gohugoio/hugo.git /go/src/github.com/gohugoio/hugo \
+RUN git clone --depth 1 -b ${HUGO_RELEASE_TAG:-"master"} https://github.com/gohugoio/hugo.git /go/src/github.com/gohugoio/hugo \
     && mage hugo && mage install
+
+WORKDIR /go/src/github.com/gohugoio/hugo
 
 FROM alpine:3.11
 MAINTAINER Valeriy Solovyov <weldpua2008@gmail.com>
