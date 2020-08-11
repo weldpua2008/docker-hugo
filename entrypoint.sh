@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 #########################################################
-# Valeriy Solovyov <weldpua2008@gmail.com> 2016-2017(C)
+# Valeriy Solovyov <weldpua2008@gmail.com> 2016-2020(C)
 #########################################################
 set -eo pipefail
 

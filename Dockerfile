@@ -6,6 +6,7 @@ ENV CGO=1 \
     GO111MODULE=on \
     HUGO_RELEASE_TAG="v0.74.3"
 
+WORKDIR /go/src/github.com/gohugoio/hugo
 
 # gcc/g++ are required to build SASS libraries for extended version
 RUN apk update && \
@@ -15,7 +16,6 @@ RUN apk update && \
 RUN git clone --depth 1 -b ${HUGO_RELEASE_TAG:-"master"} https://github.com/gohugoio/hugo.git /go/src/github.com/gohugoio/hugo \
     && mage hugo && mage install
 
-WORKDIR /go/src/github.com/gohugoio/hugo
 
 FROM alpine:3.11
 MAINTAINER Valeriy Solovyov <weldpua2008@gmail.com>
