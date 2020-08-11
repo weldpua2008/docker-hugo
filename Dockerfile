@@ -1,5 +1,29 @@
-FROM alpine:3.4
+FROM golang:1.13-alpine AS build
+
+ARG HUGO_BUILD_TAGS
+
+ARG CGO=1 \
+    CGO_ENABLED=${CGO} \
+    GOOS=linux \
+    GO111MODULE=on \
+    HUGO_RELEASE_TAG="v0.74.3"
+
+WORKDIR /go/src/github.com/gohugoio/hugo
+
+
+# gcc/g++ are required to build SASS libraries for extended version
+RUN apk update && \
+    apk add --no-cache gcc g++ musl-dev git && \
+    go get github.com/magefile/mage
+
+RUN git clone --depth 1 -b ${HUGO_RELEASE_TAG} https://github.com/gohugoio/hugo.git /go/src/github.com/gohugoio/hugo \
+    && mage hugo && mage install
+
+FROM alpine:3.11
 MAINTAINER Valeriy Solovyov <weldpua2008@gmail.com>
+
+
+COPY --from=build /go/bin/hugo /usr/bin/hugo
 
 # Bring in metadata via --build-arg
 ARG BRANCH=unknown
@@ -28,18 +52,8 @@ LABEL \
 ENV org.opencontainers.image.created=$IMAGE_CREATED \
     org.opencontainers.image.revision=$IMAGE_REVISION \
     org.opencontainers.image.version=$IMAGE_VERSION
-    
+
 RUN apk add --update curl git openssh-client  && \
-    echo "Installed dependencies"  && \
-    set -x && \
-    export GITHUB_REPO="gohugoio/hugo" && \
-    export LATEST_RELEASE=$(curl -L -s -H 'Accept: application/json' https://github.com/$GITHUB_REPO/releases/latest)  && \
-    export LATEST_VERSION=$(echo $LATEST_RELEASE |  sed -e $'s/,"/,\\\n"/g'|grep tag_name| sed -e 's/.*"tag_name":"\(.*\)".*/\1/')  && \
-    export ARTIFACT_FILENAME="hugo_${LATEST_VERSION//v}_Linux-64bit.tar.gz" && \
-    export ARTIFACT_URL="https://github.com/$GITHUB_REPO/releases/download/$LATEST_VERSION/$ARTIFACT_FILENAME"  && \
-    curl -L $ARTIFACT_URL | tar xvz -C /tmp && \
-    mv /tmp/hugo_*/hugo_* /usr/local/bin/hugo && \
-    rm -rf /tmp/hugo_* && \
     rm -rf /var/cache/apk/* && \
     mkdir -p /site && \
     echo "Adding user & group for Hugo" && \
